@@ -16,12 +16,19 @@
         <p>Tugas Pemrograman Perangkat Bergerak</p>
         <hr>
         <p>Status Hosting: <b>Aktif</b></p>
+        
+        <div style="text-align: left; margin: 15px 0;">
+            <p>NIM : <b id="display-nim">Loading...</b></p>
+            <p>Nama: <b id="display-nama">Loading...</b></p>
+            <p>Kelas: <b id="display-kelas">Loading...</b></p>
+        </div>
+        <hr>
+
         <p>Status Database: <span id="db-status">Menghubungkan...</span></p>
     </div>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-      // Perhatikan: Kita ganti import-nya menjadi firebase-database.js
       import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
 
       const firebaseConfig = {
@@ -31,17 +38,29 @@
         storageBucket: "tugas-rio.firebasestorage.app",
         messagingSenderId: "736666765374",
         appId: "1:736666765374:web:3b7cc53a2df7830a96e96f",
-        // TAMBAHKAN databaseURL di bawah ini (Paste link dari Langkah 2)
         databaseURL: "https://tugas-rio-default-rtdb.asia-southeast1.firebasedatabase.app/" 
       };
 
       try {
           const app = initializeApp(firebaseConfig);
-          const db = getDatabase(app); // Memanggil Realtime Database
+          const db = getDatabase(app); 
           
-          document.getElementById("db-status").innerText = "Terhubung ke Firebase! ✅";
-          document.getElementById("db-status").className = "status-aktif";
-          console.log("Realtime Database berhasil terhubung!");
+          // Logika tambahan untuk membaca data secara realtime
+          const dbRef = ref(db);
+          onValue(dbRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+              // Menyesuaikan dengan huruf kapital di database Firebase-mu
+              document.getElementById("display-nim").innerText = data.NIM;
+              document.getElementById("display-nama").innerText = data.Nama;
+              document.getElementById("display-kelas").innerText = data.Kelas;
+              
+              document.getElementById("db-status").innerText = "Terhubung & Data Tampil! ✅";
+              document.getElementById("db-status").className = "status-aktif";
+              console.log("Realtime Database berhasil terhubung dan memuat data!");
+            }
+          });
+
       } catch (error) {
           document.getElementById("db-status").innerText = "Gagal terhubung ❌";
           console.error("Error Firebase:", error);
