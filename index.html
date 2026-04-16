@@ -5,8 +5,9 @@
     <title>Tugas Rio Ananda</title>
     <style>
         body { font-family: sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
-        .card { background: white; padding: 20px; border-radius: 10px; display: inline-block; shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .card { background: white; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         h1 { color: #2c3e50; }
+        .status-aktif { color: green; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -15,6 +16,36 @@
         <p>Tugas Pemrograman Perangkat Bergerak</p>
         <hr>
         <p>Status Hosting: <b>Aktif</b></p>
+        <p>Status Database: <span id="db-status">Menghubungkan...</span></p>
     </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+      // Perhatikan: Kita ganti import-nya menjadi firebase-database.js
+      import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBunZW4_QJ1Vx2tFOxs6_D1KjoYIXEd828",
+        authDomain: "tugas-rio.firebaseapp.com",
+        projectId: "tugas-rio",
+        storageBucket: "tugas-rio.firebasestorage.app",
+        messagingSenderId: "736666765374",
+        appId: "1:736666765374:web:3b7cc53a2df7830a96e96f",
+        // TAMBAHKAN databaseURL di bawah ini (Paste link dari Langkah 2)
+        databaseURL: "https://tugas-rio-default-rtdb.asia-southeast1.firebasedatabase.app/" 
+      };
+
+      try {
+          const app = initializeApp(firebaseConfig);
+          const db = getDatabase(app); // Memanggil Realtime Database
+          
+          document.getElementById("db-status").innerText = "Terhubung ke Firebase! ✅";
+          document.getElementById("db-status").className = "status-aktif";
+          console.log("Realtime Database berhasil terhubung!");
+      } catch (error) {
+          document.getElementById("db-status").innerText = "Gagal terhubung ❌";
+          console.error("Error Firebase:", error);
+      }
+    </script>
 </body>
 </html>
