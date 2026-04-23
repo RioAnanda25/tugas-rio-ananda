@@ -1,0 +1,14 @@
+[
+    {
+        "id": "1",
+        "nama": "Aku Mahasiswa",
+        "nim": "270103001",
+        "jurusan": "S1-Teknik Informatika"
+    },
+    {
+        "id": "2",
+        "nama": "Rio Ananda Saleh",
+        "nim": "240101051",
+        "jurusan": "S1-Sistem Informasi"
+    }
+]
